@@ -17,15 +17,15 @@ To download all of a comic:
 
 To download the 2nd through the 4th issue of a comic:
 ```bash
-./pull.py absolute-green-lantern-2025 -f 2 -l 4
+./pull.py absolute-green-lantern-2025 --first-issue 2 --last-issue 4
 ```
 
 To download the first 3 issues of a comic:
 ```bash
-./pull.py absolute-superman-2024 -l 3
+./pull.py absolute-superman-2024 --last-issue 3
 ```
 
 To download the 5th issue of a comic onward:
 ```bash
-./pull.py supergirl-woman-of-tomorrow-2021 -f 5
+./pull.py supergirl-woman-of-tomorrow-2021 --first-issue 5
 ```
