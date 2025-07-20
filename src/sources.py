@@ -63,7 +63,7 @@ class SourceFactory:
         "readcomicsonline.ru": ReadComicsOnlineRu,
     }
     @classmethod
-    def make_source(cls, source_url: str) -> type[Source]:
+    def make_source(cls, source_url: str) -> Source:
         if source_url not in cls.SOURCES.keys():
             print("source_url must be one of the following:")
             pretty_print(list(cls.SOURCES.keys()))
