@@ -58,9 +58,43 @@ class ReadComicsOnlineRu(Source):
 
             self.issue_name_to_page_filelinks[issue_name].append(url)
 
+class XOXOComicCom(Source):
+    """"""
+    URL_BASE = "https://xoxocomic.com/comic/"
+    def update_book_metadata(self, book_name: str):
+        book_link = self.URL_BASE + book_name
+        book_soup = get_soup_from_link(book_link, self.HEADERS)
+        for div in book_soup.find_all('div', class_='col-xs-9 chapter'):
+            a_tag = div.find('a')
+            if a_tag and a_tag.get('href'):
+                issue_name = clean_filename(div.get_text(strip=True))
+                issue_url = a_tag['href']
+
+                self.book_name_to_issue_names[book_name].insert(0, issue_name)
+                self.issue_name_to_issue_homelink[issue_name] = issue_url
+
+    def update_issue_metadata(self, issue_name: str):
+        issue_link = self.issue_name_to_issue_homelink[issue_name]
+        issue_soup = get_soup_from_link(issue_link, self.HEADERS)
+        select_tag = issue_soup.find('select', id='selectPage')
+        assert select_tag
+        for option in select_tag.find_all('option'):
+            page_link = option.get('value')
+            assert page_link
+            page_soup = get_soup_from_link(page_link, self.HEADERS)
+            div = page_soup.find('div', class_='page-chapter')
+            assert div
+            a = div.find("a")
+            assert a
+            img_tag = a.find('img', class_='single-page lazy')
+            assert img_tag
+            url = img_tag.get('data-original').strip()
+            self.issue_name_to_page_filelinks[issue_name].append(url)
+
 class SourceFactory:
     SOURCES = {
         "readcomicsonline.ru": ReadComicsOnlineRu,
+        "xoxocomic.com": XOXOComicCom,
     }
     @classmethod
     def make_source(cls, source_url: str) -> Source:

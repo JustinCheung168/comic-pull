@@ -26,6 +26,7 @@ def main():
         help=f"Path to the library directory where issues will be saved (default: {config.DEFAULT_LIBRARY_PATH})."
     )
     parser.add_argument(
+        "-s",
         "--source-url",
         type=str,
         default=config.DEFAULT_SOURCE_URL,
