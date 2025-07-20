@@ -29,3 +29,12 @@ To download the 5th issue of a comic onward:
 ```bash
 ./pull.py supergirl-woman-of-tomorrow-2021 --first-issue 5
 ```
+
+### Setting up a pull list
+
+You can save a list of pull commands in `pull_list.sh`. 
+
+To run all of them:
+```bash
+./pull_list.sh
+```

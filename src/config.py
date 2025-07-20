@@ -1,1 +1,1 @@
-LIBRARY="./MyLibrary"
+LIBRARY="/Users/justincheung/Data/Comics"
