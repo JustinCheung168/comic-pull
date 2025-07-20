@@ -11,13 +11,19 @@ def main():
     parser.add_argument(
         "book_name",
         type=str,
-        help=f"Name of the comic book (e.g. 'absolute-martian-manhunter-2025'. Format is the one in the URLs at {src.puller.READ_COMICS_ONLINE})"
+        help=f"Name of the comic book (e.g. 'absolute-martian-manhunter-2025'. Format is the one in the URLs at {config.DEFAULT_SOURCE_URL})"
     )
     parser.add_argument(
-        "--library",
+        "--library-path",
         type=str,
-        default=config.LIBRARY,
-        help=f"Path to the library directory where issues will be saved (default: {config.LIBRARY})."
+        default=config.DEFAULT_LIBRARY_PATH,
+        help=f"Path to the library directory where issues will be saved (default: {config.DEFAULT_LIBRARY_PATH})."
+    )
+    parser.add_argument(
+        "--source-url",
+        type=str,
+        default=config.DEFAULT_SOURCE_URL,
+        help=f"URL to get comics from (default: {config.DEFAULT_SOURCE_URL})."
     )
     parser.add_argument(
         "-f",
@@ -37,7 +43,8 @@ def main():
 
     src.puller.Puller.pull(
         book_name=args.book_name,
-        library=args.library,
+        library_path=args.library_path,
+        source_url=args.source_url,
         first_issue=args.first_issue,
         last_issue=args.last_issue
     )
