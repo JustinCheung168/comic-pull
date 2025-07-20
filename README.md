@@ -1,12 +1,37 @@
+# comic-pull
+
 ## Usage:
 
 ### First-time
 
+You will need to install Python 3. (https://www.python.org/)
+Confirm that you have it:
+```bash
+python3 --version
+# Should see a version of Python print out.
+```
 
+Clone this repository.
+```bash
+git clone git@github.com:JustinCheung168/comic-pull.git
+```
+
+In your command line:
+```bash
+cd comic-pull
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
 
 Set the LIBRARY variable in src/config.py to the path on your system that you want to download to by default.
 
 ### Pulling a comic
+
+First:
+```bash
+source env/bin/activate
+```
 
 To download all of a comic:
 ```bash
