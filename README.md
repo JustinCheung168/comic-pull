@@ -24,7 +24,7 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-Set the LIBRARY variable in src/config.py to the path on your system that you want to download to by default.
+Set the LIBRARY variable in config.py to the path on your system that you want to download to by default.
 
 ### Pulling a comic
 

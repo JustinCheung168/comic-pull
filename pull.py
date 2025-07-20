@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+
 import src.puller
-import src.config
+import config
 
 def main():
     parser = argparse.ArgumentParser(
@@ -15,8 +16,8 @@ def main():
     parser.add_argument(
         "--library",
         type=str,
-        default=src.config.LIBRARY,
-        help=f"Path to the library directory where issues will be saved (default: {src.config.LIBRARY})."
+        default=config.LIBRARY,
+        help=f"Path to the library directory where issues will be saved (default: {config.LIBRARY})."
     )
     parser.add_argument(
         "-f",
