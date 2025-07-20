@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from tqdm import tqdm
 
-import src.misc
+from src.misc import download_file_from_link, get_soup_from_link, pretty_print, clean_filename
 
 class Source:
     """"""
@@ -31,18 +31,18 @@ class Source:
     def download_issue(self, issue_name: str, write_directory: str):
         issue_page_links = self.issue_name_to_page_filelinks[issue_name]
         for page_link in tqdm(issue_page_links, desc=f"Downloading {issue_name}"):
-            src.misc.download_file_from_link(page_link, write_directory, self.HEADERS)
+            download_file_from_link(page_link, write_directory, self.HEADERS)
 
 class ReadComicsOnlineRu(Source):
     """"""
     URL_BASE = "https://readcomicsonline.ru/comic/"
     def update_book_metadata(self, book_name: str):
         book_link = self.URL_BASE + book_name
-        book_soup = src.misc.get_soup_from_link(book_link, self.HEADERS)
+        book_soup = get_soup_from_link(book_link, self.HEADERS)
         for h5 in book_soup.find_all('h5', class_='chapter-title-rtl'):
             a_tag = h5.find('a')
             if a_tag and a_tag.get('href'):
-                issue_name = src.misc.clean_filename(h5.get_text(strip=True))
+                issue_name = clean_filename(h5.get_text(strip=True))
                 issue_url = a_tag['href']
 
                 self.book_name_to_issue_names[book_name].insert(0, issue_name)
@@ -50,7 +50,7 @@ class ReadComicsOnlineRu(Source):
 
     def update_issue_metadata(self, issue_name: str):
         issue_link = self.issue_name_to_issue_homelink[issue_name]
-        issue_soup = src.misc.get_soup_from_link(issue_link, self.HEADERS)
+        issue_soup = get_soup_from_link(issue_link, self.HEADERS)
         div = issue_soup.find('div', id='all')
         assert div
         for img in div.find_all('img'):
@@ -58,6 +58,14 @@ class ReadComicsOnlineRu(Source):
 
             self.issue_name_to_page_filelinks[issue_name].append(url)
 
-SOURCES = {
-    "readcomicsonline.ru": ReadComicsOnlineRu,
-}
+class SourceFactory:
+    SOURCES = {
+        "readcomicsonline.ru": ReadComicsOnlineRu,
+    }
+    @classmethod
+    def make_source(cls, source_url: str) -> type[Source]:
+        if source_url not in cls.SOURCES.keys():
+            print("source_url must be one of the following:")
+            pretty_print(list(cls.SOURCES.keys()))
+            raise Exception
+        return cls.SOURCES[source_url]()

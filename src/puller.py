@@ -1,7 +1,7 @@
 from typing import Optional
 
 from src.misc import pretty_print
-from src.sources import SOURCES
+from src.sources import SourceFactory
 from src.library import Library
 
 class Puller:
@@ -11,12 +11,8 @@ class Puller:
         assert first_issue >= 1, "First issue should be specified as 1 or higher."
         if last_issue is not None:
             assert last_issue >= 1, "Last issue should be specified as 1 or higher."
-        if source_url not in SOURCES.keys():
-            print("source_url must be one of the following:")
-            pretty_print(SOURCES.keys())
-            raise Exception
-        
-        source = SOURCES[source_url]()
+
+        source = SourceFactory.make_source(source_url)
         
         print(f"Checking {source_url} for available issues.")
         source.update_book_metadata(book_name)
