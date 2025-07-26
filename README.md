@@ -2,15 +2,11 @@
 
 `comic-pull` is a command-line tool for downloading comic book issues from supported online sources into your own organized library.
 
----
-
 ## Features
 - Download all or a range of issues for a comic series
 - Supports multiple comic sources (see `src/sources.py` for supported sites)
 - Maintains a local library and avoids duplicate downloads
 - Batch download via a pull list script
-
----
 
 ## Quick Start
 
@@ -38,8 +34,6 @@ pip install -r requirements.txt
 Edit `config.py` and set the `DEFAULT_LIBRARY_PATH` variable to the directory where you want comics to be saved by default.
 
 You can leave `DEFAULT_SOURCE_URL` alone - this is the default website you will download comics from.
-
----
 
 ## Usage
 
@@ -90,8 +84,6 @@ If you want to specify a different source to download comics from (see supported
 ./pull.py <comic-name> --source-url xoxocomic.com
 ```
 
----
-
 ### Batch Download with a Pull List
 You can save a list of pull commands in `pull_list.sh` (one per line):
 ```bash
@@ -106,9 +98,6 @@ Run all of them at once:
 This is an easy way to keep up with the latest issues of your favorite comics. Simply rerun `./pull_list.sh` every so often, and any new available issues will be downloaded.
 
 Issues which you already have will not be redownloaded.
-
-
----
 
 ## Project Structure
 
@@ -125,11 +114,3 @@ comic-pull/
 │   └── __init__.py        # Package marker
 └── ...
 ```
-
----
-
-## Troubleshooting
-
-- If you get `ModuleNotFoundError` for `src.*`, make sure you are running scripts from the project root and your virtual environment is activated.
-- If downloads fail, check your internet connection and that the comic name matches the format used on the source site.
-- For new sources, you may need to extend `src/sources.py`.
