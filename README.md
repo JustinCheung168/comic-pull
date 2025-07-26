@@ -99,6 +99,8 @@ This is an easy way to keep up with the latest issues of your favorite comics. S
 
 Issues which you already have will not be redownloaded.
 
+For even more convenience, consider looking into how you can get `pull_list.sh` to run by double-clicking it.
+
 ## Project Structure
 
 ```
