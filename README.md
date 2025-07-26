@@ -1,65 +1,135 @@
 # comic-pull
 
-## Usage:
+`comic-pull` is a command-line tool for downloading comic book issues from supported online sources into your own organized library.
 
-### First-time
+---
 
-You will need to install Python 3. (https://www.python.org/)
-Confirm that you have it:
+## Features
+- Download all or a range of issues for a comic series
+- Supports multiple comic sources (see `src/sources.py` for supported sites)
+- Maintains a local library and avoids duplicate downloads
+- Batch download via a pull list script
+
+---
+
+## Quick Start
+
+### 1. Prerequisites
+- A recent version of Python 3 ([Download Python](https://www.python.org/))
+- `git` (for cloning the repository)
+
+Check your Python version:
 ```bash
 python3 --version
 # Should see a version of Python print out.
 ```
 
-Clone this repository.
+### 2. Installation
+Clone this repository and set up a virtual environment:
 ```bash
 git clone git@github.com:JustinCheung168/comic-pull.git
-```
-
-In your command line:
-```bash
 cd comic-pull
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
 
-Set the DEFAULT_LIBRARY_PATH variable in config.py to the path on your system that you want to download to by default.
+### 3. Configuration
+Edit `config.py` and set the `DEFAULT_LIBRARY_PATH` variable to the directory where you want comics to be saved by default.
 
-### Pulling a comic
+You can leave `DEFAULT_SOURCE_URL` alone - this is the default website you will download comics from.
 
-First:
+---
+
+## Usage
+
+### Activating the Environment
+Before running any commands, activate your Python virtual environment:
 ```bash
 source env/bin/activate
 ```
 
-To download all of a comic:
+### Downloading Comics
+The following command will download all issues of a comic:
 ```bash
 ./pull.py superman-smashes-the-klan-2019
 ```
 
-#### More options
+The format used for comic names depends on the format used by the website defined in `DEFAULT_SOURCE_URL`.
+<p align="center">
+  <img src="docs/example_url.png" alt="Example comic URL format" width="500"/>
+</p>
 
-To download the 2nd through the 4th issue of a comic:
+#### More options
+You can use the `--first-issue` and `--last-issue` flags to specify the range of comic issues you want to download.
+
+For example, if you only want the 2nd through the 4th issues:
 ```bash
 ./pull.py absolute-green-lantern-2025 --first-issue 2 --last-issue 4
 ```
 
-To download the first 3 issues of a comic:
+To download all issues up to the 3rd issue:
 ```bash
 ./pull.py absolute-superman-2024 --last-issue 3
 ```
 
-To download the 5th issue of a comic onward:
+To download all issues starting from the 5th issue onward:
 ```bash
 ./pull.py supergirl-woman-of-tomorrow-2021 --first-issue 5
 ```
 
-### Setting up a pull list
+#### Custom Library Path
+You can use `--library-path` to download a comic to a different location on your computer other than `DEFAULT_LIBRARY_PATH`, in case you want to keep multiple collections:
+```bash
+./pull.py <comic-name> --library-path /path/to/your/comics
+```
 
-You can save a list of pull commands in `pull_list.sh`. 
+#### Custom Source URL
+If you want to specify a different source to download comics from (see supported sources in `src/sources.py`):
+```bash
+./pull.py <comic-name> --source-url xoxocomic.com
+```
 
-To run all of them:
+---
+
+### Batch Download with a Pull List
+You can save a list of pull commands in `pull_list.sh` (one per line):
+```bash
+./pull.py superman-smashes-the-klan-2019
+./pull.py supergirl-woman-of-tomorrow-2021
+```
+Run all of them at once:
 ```bash
 ./pull_list.sh
 ```
+
+This is an easy way to keep up with the latest issues of your favorite comics. Simply rerun `./pull_list.sh` every so often, and any new available issues will be downloaded.
+
+Issues which you already have will not be redownloaded.
+
+
+---
+
+## Project Structure
+
+```
+comic-pull/
+├── config.py              # Configuration (set your DEFAULT_LIBRARY_PATH here)
+├── pull.py                # Main script to pull comics
+├── pull_list.sh           # Example batch script for multiple pulls
+├── src/
+│   ├── library.py         # Library management
+│   ├── misc.py            # Utility functions
+│   ├── puller.py          # Puller logic
+│   ├── sources.py         # Source site logic
+│   └── __init__.py        # Package marker
+└── ...
+```
+
+---
+
+## Troubleshooting
+
+- If you get `ModuleNotFoundError` for `src.*`, make sure you are running scripts from the project root and your virtual environment is activated.
+- If downloads fail, check your internet connection and that the comic name matches the format used on the source site.
+- For new sources, you may need to extend `src/sources.py`.
